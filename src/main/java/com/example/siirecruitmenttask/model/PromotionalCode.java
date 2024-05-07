@@ -20,7 +20,6 @@ public class PromotionalCode {
     @NotBlank
     @NotNull
     @NotEmpty
-    @UniqueElements
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Attribute must be alphanumeric")
     @Size(min = 3, max = 24, message = "Code length must be between 3 and 24 characters")
     private String code;

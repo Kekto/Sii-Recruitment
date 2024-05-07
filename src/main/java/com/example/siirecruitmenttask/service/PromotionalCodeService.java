@@ -20,6 +20,20 @@ public class PromotionalCodeService {
                 .body(promotionalCodeRepository.findAll());
     }
 
+    public ResponseEntity<?> getPromotionalCodeByCode(String code) {
+        PromotionalCode promocode = promotionalCodeRepository.findByCode(code);
+
+        if(promocode != null) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(promocode);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("Promotional Code not found");
+    }
+
     public ResponseEntity<?> addPromotionalCode(PromotionalCode promotionalCode) {
         if( promotionalCode.getCode().isEmpty()
                 || promotionalCode.getCurrency().isEmpty()

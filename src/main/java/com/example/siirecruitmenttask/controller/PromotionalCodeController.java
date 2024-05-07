@@ -12,23 +12,28 @@ public class PromotionalCodeController {
     @Autowired
     private PromotionalCodeService promotionalCodeService;
 
-    @RequestMapping(value = "/promocode", method = RequestMethod.GET)
-    public ResponseEntity<?> getAllTasks(){
+    @RequestMapping(value = "/promocodes", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllPromotionalCodes(){
         return promotionalCodeService.getAllPromotionalCodes();
     }
 
+    @RequestMapping(value = "/promocode/{code}", method = RequestMethod.GET)
+    public ResponseEntity<?> getPromotionalCodeByCode(@PathVariable String code){
+        return promotionalCodeService.getPromotionalCodeByCode(code);
+    }
+
     @RequestMapping(value = "/promocode", method = RequestMethod.POST)
-    public ResponseEntity<?> addTask(@RequestBody PromotionalCode promotionalCode){
+    public ResponseEntity<?> addPromotionalCode(@RequestBody PromotionalCode promotionalCode){
         return promotionalCodeService.addPromotionalCode(promotionalCode);
     }
 
     @RequestMapping(value = "/promocode/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> editTask(@PathVariable Long id, @RequestBody PromotionalCode promotionalCode){
+    public ResponseEntity<?> editPromotionalCode(@PathVariable Long id, @RequestBody PromotionalCode promotionalCode){
         return promotionalCodeService.editPromotionalCode(id, promotionalCode);
     }
 
     @RequestMapping(value = "/promocode/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteTask(@PathVariable Long id){
+    public ResponseEntity<?> deletePromotionalCode(@PathVariable Long id){
         return promotionalCodeService.deletePromotionalCode(id);
     }
 }
