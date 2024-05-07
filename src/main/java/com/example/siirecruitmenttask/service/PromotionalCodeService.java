@@ -21,6 +21,22 @@ public class PromotionalCodeService {
     }
 
     public ResponseEntity<?> addPromotionalCode(PromotionalCode promotionalCode) {
+        if( promotionalCode.getCode().isEmpty()
+                || promotionalCode.getCurrency().isEmpty()
+                || promotionalCode.getAmount() < 1
+                || promotionalCode.getExpirationDate().toString().isEmpty()
+                || promotionalCode.getRemainingUses() < 0 ) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid data");
+        }
+
+        if(promotionalCode.getCode().length() < 3 || promotionalCode.getCode().length() > 24) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Code must have between 3 and 24 letters");
+        }
+
         promotionalCodeRepository.save(promotionalCode);
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Promotional Code has been added");
@@ -35,6 +51,12 @@ public class PromotionalCodeService {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Invalid data");
+        }
+
+        if(promotionalCode.getCode().length() < 3 || promotionalCode.getCode().length() > 24) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Code must have between 3 and 24 letters");
         }
 
         Optional<PromotionalCode> optional = promotionalCodeRepository.findById(Math.toIntExact(id));

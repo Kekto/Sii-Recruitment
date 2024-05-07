@@ -25,14 +25,10 @@ public class PromotionalCode {
     @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
-    @NotEmpty
-    @NotBlank
     private Date expirationDate;
 
     @Column
     @NotNull
-    @NotEmpty
-    @NotBlank
     private double amount;
 
     @Column
@@ -43,8 +39,6 @@ public class PromotionalCode {
 
     @Column
     @NotNull
-    @NotEmpty
-    @NotBlank
     private int remainingUses;
 
     public Long getId() {
