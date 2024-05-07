@@ -3,6 +3,7 @@ package com.example.siirecruitmenttask.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -15,10 +16,12 @@ public class PromotionalCode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     @NotBlank
     @NotNull
     @NotEmpty
+    @UniqueElements
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Attribute must be alphanumeric")
     @Size(min = 3, max = 24, message = "Code length must be between 3 and 24 characters")
     private String code;
 
