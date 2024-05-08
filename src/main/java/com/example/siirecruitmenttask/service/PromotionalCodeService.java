@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -37,7 +38,7 @@ public class PromotionalCodeService {
     public ResponseEntity<?> addPromotionalCode(PromotionalCode promotionalCode) {
         if( promotionalCode.getCode().isEmpty()
                 || promotionalCode.getCurrency().isEmpty()
-                || promotionalCode.getAmount() < 1
+                || promotionalCode.getAmount().compareTo(BigDecimal.valueOf(1)) < 0
                 || promotionalCode.getExpirationDate().toString().isEmpty()
                 || promotionalCode.getRemainingUses() < 0 ) {
             return ResponseEntity
@@ -59,7 +60,7 @@ public class PromotionalCodeService {
     public ResponseEntity<?> editPromotionalCode(Long id, PromotionalCode promotionalCode) {
         if( promotionalCode.getCode().isEmpty()
                 || promotionalCode.getCurrency().isEmpty()
-                || promotionalCode.getAmount() < 1
+                || promotionalCode.getAmount().compareTo(BigDecimal.valueOf(1)) < 0
                 || promotionalCode.getExpirationDate().toString().isEmpty()
                 || promotionalCode.getRemainingUses() < 0 ) {
             return ResponseEntity
@@ -79,7 +80,7 @@ public class PromotionalCodeService {
         promotionalCodeTemp.setCode(promotionalCode.getCode());
         promotionalCodeTemp.setExpirationDate(promotionalCode.getExpirationDate());
         promotionalCodeTemp.setAmount(promotionalCode.getAmount());
-        promotionalCodeTemp.setCurrency(promotionalCode.getCode());
+        promotionalCodeTemp.setCurrency(promotionalCode.getCurrency());
         promotionalCodeTemp.setRemainingUses(promotionalCode.getRemainingUses());
 
         promotionalCodeRepository.save(promotionalCodeTemp);

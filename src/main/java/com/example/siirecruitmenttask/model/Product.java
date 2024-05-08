@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -23,7 +24,7 @@ public class Product {
 
     @Column
     @NotNull
-    private double price;
+    private BigDecimal price;
 
     @Column
     @NotNull
@@ -55,11 +56,11 @@ public class Product {
         this.description = description;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -31,7 +32,7 @@ public class PromotionalCode {
 
     @Column
     @NotNull
-    private double amount;
+    private BigDecimal amount;
 
     @Column
     @NotNull
@@ -67,11 +68,11 @@ public class PromotionalCode {
         this.expirationDate = expirationDate;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

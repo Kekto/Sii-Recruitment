@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -22,7 +23,7 @@ public class ProductService {
     public ResponseEntity<?> addProduct(Product product) {
         if( product.getName().isEmpty()
                 || product.getCurrency().isEmpty()
-                || product.getPrice() < 0 ) {
+                || product.getPrice().compareTo(BigDecimal.valueOf(0)) < 0 ) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Invalid data");
@@ -36,7 +37,7 @@ public class ProductService {
     public ResponseEntity<?> editProduct(Long id, Product product) {
         if( product.getName().isEmpty()
                 || product.getCurrency().isEmpty()
-                || product.getPrice() < 0 ) {
+                || product.getPrice().compareTo(BigDecimal.valueOf(0)) < 0 ) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Invalid data");
@@ -49,7 +50,7 @@ public class ProductService {
         productTemp.setPrice(product.getPrice());
         productTemp.setCurrency(product.getCurrency());
 
-        if(!product.getDescription().isEmpty()){
+        if(!product.getDescription().isEmpty() && !product.getDescription().isBlank()){
             productTemp.setDescription(productTemp.getDescription());
         } else productTemp.setDescription(null);
 

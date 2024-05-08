@@ -9,8 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
@@ -55,7 +54,7 @@ public class DiscountService {
                     .body("This code has reached usage limit. Regular price for this product:" + product.getPrice() + " " + product.getCurrency());
         }
 
-        double discountedPrice = product.getPrice() - promotionalCode.getAmount() <= 0 ? 0 : product.getPrice() - promotionalCode.getAmount();
+        BigDecimal discountedPrice = product.getPrice().subtract(promotionalCode.getAmount()).compareTo(BigDecimal.valueOf(0)) <= 0 ? BigDecimal.valueOf(0) : product.getPrice().subtract(promotionalCode.getAmount());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Discounted price for " + product.getName() + " using the code " + promotionalCode.getCode() +  " is: " + discountedPrice);
