@@ -23,25 +23,25 @@ public class DiscountService {
     @Autowired
     private PromotionalCodeRepository promotionalCodeRepository;
 
-    public ResponseEntity<?> checkDiscount(Product product, PromotionalCode promotionalCode) {
+    public ResponseEntity<?> checkDiscount(Long productId, String promotionalCodeName) {
 
-        if(!productRepository.existsById(Math.toIntExact(product.getId()))){
+        if(!productRepository.existsById(Math.toIntExact(productId))){
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body("This product does not exist");
         }
 
-        Optional<Product> optionalProduct = productRepository.findById(Math.toIntExact(product.getId()));
-        product = optionalProduct.get();
+        Optional<Product> optionalProduct = productRepository.findById(Math.toIntExact(productId));
+        Product product = optionalProduct.get();
 
-        if(promotionalCodeRepository.findByCode(promotionalCode.getCode()) == null ){
+        if(promotionalCodeRepository.findByCode(promotionalCodeName) == null ){
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body("Promotional Code not found");
         }
 
-        Optional<PromotionalCode> optionalPromocode = Optional.ofNullable(promotionalCodeRepository.findByCode(promotionalCode.getCode()));
-        promotionalCode = optionalPromocode.get();
+        Optional<PromotionalCode> optionalPromocode = Optional.ofNullable(promotionalCodeRepository.findByCode(promotionalCodeName));
+        PromotionalCode promotionalCode = optionalPromocode.get();
 
         if(promotionalCode.getExpirationDate().before(new Date())){
             return ResponseEntity

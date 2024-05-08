@@ -17,6 +17,6 @@ public class DiscountController {
 
     @RequestMapping(value = "/discount", method = RequestMethod.POST)
     public ResponseEntity<?> checkDiscount(@RequestBody ProductPromocode productPromocode){
-        return discountService.checkDiscount(productPromocode.product(), productPromocode.promotionalCode());
+        return discountService.checkDiscount(productPromocode.productId(), productPromocode.promotionalCodeName());
     }
 }
