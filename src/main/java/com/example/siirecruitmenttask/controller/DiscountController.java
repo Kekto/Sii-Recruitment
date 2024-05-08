@@ -1,7 +1,5 @@
 package com.example.siirecruitmenttask.controller;
 
-import com.example.siirecruitmenttask.model.Product;
-import com.example.siirecruitmenttask.model.PromotionalCode;
 import com.example.siirecruitmenttask.record.ProductPromocode;
 import com.example.siirecruitmenttask.service.DiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
