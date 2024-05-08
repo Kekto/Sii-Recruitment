@@ -86,6 +86,7 @@ public class PurchaseService {
             BigDecimal discountedPrice = product.getPrice().subtract(promotionalCode.getAmount()).compareTo(BigDecimal.valueOf(0)) <= 0 ? BigDecimal.valueOf(0) : product.getPrice().subtract(promotionalCode.getAmount());
 
             purchase.setDiscountValue(promotionalCode.getAmount());
+            promotionalCode.setRemainingUses(promotionalCode.getRemainingUses() - 1);
 
             purchaseRepository.save(purchase);
 

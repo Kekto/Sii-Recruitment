@@ -12,7 +12,7 @@ public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
 
-    @RequestMapping(value = "/purchases", method = RequestMethod.POST)
+    @RequestMapping(value = "/purchases", method = RequestMethod.GET)
     public ResponseEntity<?> checkDiscount(){
         return purchaseService.getAllPurchases();
     }
