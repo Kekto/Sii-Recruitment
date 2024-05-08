@@ -87,6 +87,7 @@ public class PurchaseService {
 
             purchase.setDiscountValue(promotionalCode.getAmount());
             promotionalCode.setRemainingUses(promotionalCode.getRemainingUses() - 1);
+            promotionalCodeRepository.save(promotionalCode);
 
             purchaseRepository.save(purchase);
 
