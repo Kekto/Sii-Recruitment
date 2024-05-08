@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class DiscountService {
@@ -30,11 +31,17 @@ public class DiscountService {
                     .body("This product does not exist");
         }
 
+        Optional<Product> optionalProduct = productRepository.findById(Math.toIntExact(product.getId()));
+        product = optionalProduct.get();
+
         if(promotionalCodeRepository.findByCode(promotionalCode.getCode()) == null ){
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body("Promotional Code not found");
         }
+
+        Optional<PromotionalCode> optionalPromocode = Optional.ofNullable(promotionalCodeRepository.findByCode(promotionalCode.getCode()));
+        promotionalCode = optionalPromocode.get();
 
         if(promotionalCode.getExpirationDate().before(new Date())){
             return ResponseEntity
