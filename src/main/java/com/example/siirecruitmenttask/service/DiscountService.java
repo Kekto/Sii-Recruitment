@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
@@ -61,7 +63,21 @@ public class DiscountService {
                     .body("This code has reached usage limit. Regular price for this product:" + product.getPrice() + " " + product.getCurrency());
         }
 
+        if(promotionalCode.getIsPercantage()){
+            BigDecimal discountedPrice =
+                    product.getPrice().subtract(product.getPrice().multiply(promotionalCode.getAmount().divide(BigDecimal.valueOf(100))))
+                        .compareTo(BigDecimal.valueOf(0)) <= 0
+                            ? BigDecimal.valueOf(0)
+                            : product.getPrice().subtract(product.getPrice().multiply(promotionalCode.getAmount().divide(BigDecimal.valueOf(100))));
+
+            discountedPrice = discountedPrice.setScale(2, RoundingMode.HALF_UP);
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Discounted price for " + product.getName() + " using the code " + promotionalCode.getCode() +  " is: " + discountedPrice);
+        }
+
         BigDecimal discountedPrice = product.getPrice().subtract(promotionalCode.getAmount()).compareTo(BigDecimal.valueOf(0)) <= 0 ? BigDecimal.valueOf(0) : product.getPrice().subtract(promotionalCode.getAmount());
+        discountedPrice = discountedPrice.setScale(2, RoundingMode.HALF_UP);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Discounted price for " + product.getName() + " using the code " + promotionalCode.getCode() +  " is: " + discountedPrice);

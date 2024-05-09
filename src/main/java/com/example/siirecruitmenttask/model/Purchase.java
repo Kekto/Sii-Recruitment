@@ -35,6 +35,10 @@ public class Purchase {
 
     @Column
     @NotNull
+    private boolean isPercantage;
+
+    @Column
+    @NotNull
     @NotEmpty
     @NotBlank
     private String productName;
@@ -85,5 +89,13 @@ public class Purchase {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public boolean getIsPercantage() {
+        return isPercantage;
+    }
+
+    public void setIsPercantage(boolean isPercantage) {
+        this.isPercantage = isPercantage;
     }
 }

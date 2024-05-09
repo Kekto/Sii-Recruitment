@@ -82,6 +82,7 @@ public class PromotionalCodeService {
         promotionalCodeTemp.setAmount(promotionalCode.getAmount());
         promotionalCodeTemp.setCurrency(promotionalCode.getCurrency());
         promotionalCodeTemp.setRemainingUses(promotionalCode.getRemainingUses());
+        promotionalCodeTemp.setIsPercantage(promotionalCode.getIsPercantage());
 
         promotionalCodeRepository.save(promotionalCodeTemp);
 

@@ -1,5 +1,6 @@
 package com.example.siirecruitmenttask.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Range;
@@ -43,6 +44,10 @@ public class PromotionalCode {
     @Column
     @NotNull
     private int remainingUses;
+
+    @Column
+    @NotNull
+    private boolean isPercantage;
 
     public Long getId() {
         return id;
@@ -90,5 +95,13 @@ public class PromotionalCode {
 
     public void setRemainingUses(int remainingUses) {
         this.remainingUses = remainingUses;
+    }
+
+    public boolean getIsPercantage() {
+        return isPercantage;
+    }
+
+    public void setIsPercantage(boolean isPercantage) {
+        this.isPercantage = isPercantage;
     }
 }

@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
@@ -62,7 +64,7 @@ public class PurchaseService {
 
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body("This code has expired. Product purchased at regular price of" + product.getPrice() + " " + product.getCurrency());
+                        .body("This code has expired. Product purchased at regular price of " + product.getPrice() + " " + product.getCurrency());
             }
 
             if (!Objects.equals(promotionalCode.getCurrency(), product.getCurrency())) {
@@ -71,7 +73,7 @@ public class PurchaseService {
 
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body("Currency types differ. Product purchased at regular price of" + product.getPrice() + " " + product.getCurrency());
+                        .body("Currency types differ. Product purchased at regular price of " + product.getPrice() + " " + product.getCurrency());
             }
 
             if (promotionalCode.getRemainingUses() < 1) {
@@ -80,16 +82,32 @@ public class PurchaseService {
 
                 return ResponseEntity
                         .status(HttpStatus.OK)
-                        .body("This code has reached usage limit. Product purchased at regular price of:" + product.getPrice() + " " + product.getCurrency());
+                        .body("This code has reached usage limit. Product purchased at regular price of " + product.getPrice() + " " + product.getCurrency());
             }
 
-            BigDecimal discountedPrice = product.getPrice().subtract(promotionalCode.getAmount()).compareTo(BigDecimal.valueOf(0)) <= 0 ? BigDecimal.valueOf(0) : product.getPrice().subtract(promotionalCode.getAmount());
+            BigDecimal discountedPrice;
+
+            if(promotionalCode.getIsPercantage()){
+                discountedPrice = product.getPrice().subtract(product.getPrice().multiply(promotionalCode.getAmount().divide(BigDecimal.valueOf(100))))
+                        .compareTo(BigDecimal.valueOf(0)) <= 0
+                            ? BigDecimal.valueOf(0)
+                            : product.getPrice().subtract(product.getPrice().multiply(promotionalCode.getAmount().divide(BigDecimal.valueOf(100))));
+
+            } else {
+                discountedPrice = product.getPrice().subtract(promotionalCode.getAmount())
+                        .compareTo(BigDecimal.valueOf(0)) <= 0
+                            ? BigDecimal.valueOf(0)
+                            : product.getPrice().subtract(promotionalCode.getAmount());
+            }
+
+            discountedPrice = discountedPrice.setScale(2, RoundingMode.HALF_UP);
 
             purchase.setDiscountValue(promotionalCode.getAmount());
+            purchase.setIsPercantage(promotionalCode.getIsPercantage());
             promotionalCode.setRemainingUses(promotionalCode.getRemainingUses() - 1);
-            promotionalCodeRepository.save(promotionalCode);
 
             purchaseRepository.save(purchase);
+            promotionalCodeRepository.save(promotionalCode);
 
             return ResponseEntity.status(HttpStatus.OK)
                     .body("Purchased " + product.getName() + " at discounted price using the code " + promotionalCode.getCode() + " for: " + discountedPrice);
