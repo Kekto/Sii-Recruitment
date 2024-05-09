@@ -1,1 +1,0 @@
-insert into promotional_code (code, expiration_date, amount, currency, remaining_uses) VALUES ('PROMOCODE01', '2024-05-30', 20, 'EUR', 100)
