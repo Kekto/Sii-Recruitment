@@ -3,10 +3,10 @@ package com.example.siirecruitmenttask.discount;
 import com.example.siirecruitmenttask.discount.controller.model.CheckDiscountResponse;
 import com.example.siirecruitmenttask.exception.ProductNotFoundException;
 import com.example.siirecruitmenttask.exception.PromotionalCodeNotFoundException;
-import com.example.siirecruitmenttask.product.ProductService;
 import com.example.siirecruitmenttask.product.ProductEntity;
-import com.example.siirecruitmenttask.promotionalCode.PromotionalCodeService;
+import com.example.siirecruitmenttask.product.ProductService;
 import com.example.siirecruitmenttask.promotionalCode.PromotionalCodeEntity;
+import com.example.siirecruitmenttask.promotionalCode.PromotionalCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

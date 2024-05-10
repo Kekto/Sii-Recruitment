@@ -2,8 +2,8 @@ package com.example.siirecruitmenttask.product.controller;
 
 import com.example.siirecruitmenttask.exception.ProductInvalidDataException;
 import com.example.siirecruitmenttask.exception.ProductNotFoundException;
-import com.example.siirecruitmenttask.product.ProductService;
 import com.example.siirecruitmenttask.product.ProductEntity;
+import com.example.siirecruitmenttask.product.ProductService;
 import com.example.siirecruitmenttask.product.controller.model.ProductRequest;
 import com.example.siirecruitmenttask.product.controller.model.ProductResponse;
 import jakarta.validation.Valid;
@@ -18,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 @RequestMapping(value = ProductController.PRODUCT_ENDPOINT_V1, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProductController {
-
     static final String PRODUCT_ENDPOINT_V1 = "/api/v1/products";
     private final ProductService productService;
 
