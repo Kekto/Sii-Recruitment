@@ -20,33 +20,20 @@ public class PromotionalCodeEntity {
     private Long id;
 
     @Column(unique = true)
-    @NotBlank
-    @NotNull
-    @NotEmpty
-    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Attribute must be alphanumeric")
-    @Size(min = 3, max = 24, message = "Code length must be between 3 and 24 characters")
     private String name;
 
     @Column
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull
     private LocalDate expirationDate;
 
     @Column
-    @NotNull
     private BigDecimal amount;
 
     @Column
-    @NotNull
-    private boolean percantage;
+    private boolean percentage;
 
     @Column
-    @NotNull
-    @NotEmpty
-    @NotBlank
     private String currency;
 
     @Column
-    @NotNull
     private int remainingUses;
 }

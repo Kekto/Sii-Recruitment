@@ -19,10 +19,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public ProductResponse addProduct(ProductRequest productRequest) throws ProductInvalidDataException {
-        if (productRequest.price().compareTo(BigDecimal.valueOf(0)) < 0) {
-            throw new ProductInvalidDataException();
-        }
+    public ProductResponse addProduct(ProductRequest productRequest) {
 
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(productRequest.name());
@@ -34,10 +31,7 @@ public class ProductService {
         return new ProductResponse(productEntity, "Product created successfully");
     }
 
-    public ProductResponse editProduct(Long id, ProductRequest productRequest) throws ProductInvalidDataException, ProductNotFoundException {
-        if (productRequest.price().compareTo(BigDecimal.valueOf(0)) < 0) {
-            throw new ProductInvalidDataException();
-        }
+    public ProductResponse editProduct(Long id, ProductRequest productRequest) throws ProductNotFoundException {
 
         ProductEntity productEntity = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 

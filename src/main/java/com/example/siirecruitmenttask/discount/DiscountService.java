@@ -61,7 +61,7 @@ public class DiscountService {
 
     private BigDecimal calculateSubtract(PromotionalCodeEntity promotionalCodeEntity, BigDecimal productPrice, BigDecimal promotionalCodeAmount) {
 
-        if (promotionalCodeEntity.isPercantage()) {
+        if (promotionalCodeEntity.isPercentage()) {
             var denominator = BigDecimal.valueOf(100);
             return productPrice.multiply(promotionalCodeAmount.divide(denominator));
         }

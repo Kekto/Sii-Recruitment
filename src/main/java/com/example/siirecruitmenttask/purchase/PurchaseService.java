@@ -71,7 +71,7 @@ public class PurchaseService {
             discountedPrice = discountedPrice.setScale(2, RoundingMode.HALF_UP);
 
             purchaseEntity.setDiscountValue(promotionalCodeEntity.getAmount());
-            purchaseEntity.setPercantage(promotionalCodeEntity.isPercantage());
+            purchaseEntity.setPercentage(promotionalCodeEntity.isPercentage());
             promotionalCodeEntity.setRemainingUses(promotionalCodeEntity.getRemainingUses() - 1);
 
             purchaseRepository.save(purchaseEntity);

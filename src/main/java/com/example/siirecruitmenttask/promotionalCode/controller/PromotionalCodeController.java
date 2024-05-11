@@ -48,8 +48,6 @@ public class PromotionalCodeController {
             var addPromotionalCode = promotionalCodeService.addPromotionalCode(promotionalCodeRequest);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(addPromotionalCode);
-        } catch (PromotionalCodeNameLengthInvalidException | PromotionalCodeInvalidDataException exception) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, exception.getMessage(), exception);
         } catch (PromotionalCodeAlreadyExistsException exception) {
             throw new ResponseStatusException(HttpStatus.FOUND, exception.getMessage(), exception);
         }
@@ -62,8 +60,6 @@ public class PromotionalCodeController {
             var editPromotionalCode = promotionalCodeService.editPromotionalCode(id, promotionalCodeRequest);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(editPromotionalCode);
-        } catch (PromotionalCodeNameLengthInvalidException | PromotionalCodeInvalidDataException exception) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, exception.getMessage(), exception);
         } catch (PromotionalCodeNotFoundException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
         }

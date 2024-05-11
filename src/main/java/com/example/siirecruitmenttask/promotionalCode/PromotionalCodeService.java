@@ -1,15 +1,12 @@
 package com.example.siirecruitmenttask.promotionalCode;
 
 import com.example.siirecruitmenttask.exception.PromotionalCodeAlreadyExistsException;
-import com.example.siirecruitmenttask.exception.PromotionalCodeInvalidDataException;
-import com.example.siirecruitmenttask.exception.PromotionalCodeNameLengthInvalidException;
 import com.example.siirecruitmenttask.exception.PromotionalCodeNotFoundException;
 import com.example.siirecruitmenttask.promotionalCode.controller.model.PromotionalCodeRequest;
 import com.example.siirecruitmenttask.promotionalCode.controller.model.PromotionalCodeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,21 +28,11 @@ public class PromotionalCodeService {
         return new PromotionalCodeResponse(promotionalCodeEntity, "Promotional code found successfully");
     }
 
-    public PromotionalCodeResponse addPromotionalCode(PromotionalCodeRequest promotionalCodeRequest) throws PromotionalCodeInvalidDataException, PromotionalCodeNameLengthInvalidException, PromotionalCodeAlreadyExistsException {
+    public PromotionalCodeResponse addPromotionalCode(PromotionalCodeRequest promotionalCodeRequest) throws PromotionalCodeAlreadyExistsException {
 
         Optional<PromotionalCodeEntity> optionalDuplicatePromotionalCodeEntity = promotionalCodeRepository.findByName(promotionalCodeRequest.name());
         if (optionalDuplicatePromotionalCodeEntity.isPresent() && Objects.equals(promotionalCodeRequest.name(), optionalDuplicatePromotionalCodeEntity.get().getName())) {
             throw new PromotionalCodeAlreadyExistsException();
-        }
-
-        if (promotionalCodeRequest.amount().compareTo(BigDecimal.valueOf(0)) < 0
-                || promotionalCodeRequest.remainingUses() < 0) {
-            throw new PromotionalCodeInvalidDataException();
-        }
-
-        var promoCodeLength = promotionalCodeRequest.name().length();
-        if (promoCodeLength < 3 || promoCodeLength > 24) {
-            throw new PromotionalCodeNameLengthInvalidException();
         }
 
         PromotionalCodeEntity promotionalCodeEntity = new PromotionalCodeEntity();
@@ -53,22 +40,14 @@ public class PromotionalCodeService {
         promotionalCodeEntity.setAmount(promotionalCodeRequest.amount());
         promotionalCodeEntity.setCurrency(promotionalCodeRequest.currency());
         promotionalCodeEntity.setExpirationDate(promotionalCodeRequest.expirationDate());
-        promotionalCodeEntity.setPercantage(promotionalCodeRequest.percantage());
+        promotionalCodeEntity.setPercentage(promotionalCodeRequest.percentage());
         promotionalCodeEntity.setRemainingUses(promotionalCodeRequest.remainingUses());
 
         promotionalCodeRepository.save(promotionalCodeEntity);
         return new PromotionalCodeResponse(promotionalCodeEntity, "Promotional code successfully added");
     }
 
-    public PromotionalCodeResponse editPromotionalCode(Long id, PromotionalCodeRequest promotionalCodeRequest) throws PromotionalCodeInvalidDataException, PromotionalCodeNameLengthInvalidException, PromotionalCodeNotFoundException {
-        if (promotionalCodeRequest.amount().compareTo(BigDecimal.valueOf(0)) < 0
-                || promotionalCodeRequest.remainingUses() < 0) {
-            throw new PromotionalCodeInvalidDataException();
-        }
-
-        if (promotionalCodeRequest.name().length() < 3 || promotionalCodeRequest.name().length() > 24) {
-            throw new PromotionalCodeNameLengthInvalidException();
-        }
+    public PromotionalCodeResponse editPromotionalCode(Long id, PromotionalCodeRequest promotionalCodeRequest) throws PromotionalCodeNotFoundException {
 
         PromotionalCodeEntity promotionalCodeEntity = promotionalCodeRepository.findById(id).orElseThrow(() -> new PromotionalCodeNotFoundException());
 
@@ -77,7 +56,7 @@ public class PromotionalCodeService {
         promotionalCodeEntity.setAmount(promotionalCodeRequest.amount());
         promotionalCodeEntity.setCurrency(promotionalCodeRequest.currency());
         promotionalCodeEntity.setRemainingUses(promotionalCodeRequest.remainingUses());
-        promotionalCodeEntity.setPercantage(promotionalCodeRequest.percantage());
+        promotionalCodeEntity.setPercentage(promotionalCodeRequest.percentage());
 
         promotionalCodeRepository.save(promotionalCodeEntity);
 

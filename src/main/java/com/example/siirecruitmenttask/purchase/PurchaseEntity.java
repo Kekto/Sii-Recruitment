@@ -1,5 +1,6 @@
 package com.example.siirecruitmenttask.purchase;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -22,30 +23,31 @@ public class PurchaseEntity {
     private Long id;
 
     @Column
-    @NotNull
-    @NotEmpty
-    @NotBlank
+    @NotNull(message = "Product name cannot be null")
+    @NotEmpty(message = "Product name cannot be empty")
+    @NotBlank(message = "Product name cannot be blank")
     private String productName;
 
     @Column
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "Purchase date cannot be null")
     private LocalDate purchaseDate;
 
     @Column
-    @NotNull
+    @NotNull(message = "Base price cannot be null")
     private BigDecimal basePrice;
 
     @Column
-    @NotNull
-    @NotBlank
-    @NotEmpty
+    @NotNull(message = "Currency cannot be null")
+    @NotBlank(message = "Currency cannot be blank")
+    @NotEmpty(message = "Currency cannot be empty")
     private String currency;
 
     @Column
     private BigDecimal discountValue;
 
     @Column
-    @NotNull
-    private boolean percantage;
+    @NotNull(message = "Percentage cannot be null")
+    private boolean percentage;
 }

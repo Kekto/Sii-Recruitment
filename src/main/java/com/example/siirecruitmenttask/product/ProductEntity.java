@@ -19,20 +19,15 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @NotNull
-    @NotEmpty
+    @Column
     private String name;
 
+    @Column
     private String description;
 
     @Column
-    @NotNull
     private BigDecimal price;
 
     @Column
-    @NotNull
-    @NotEmpty
-    @NotBlank
     private String currency;
 }

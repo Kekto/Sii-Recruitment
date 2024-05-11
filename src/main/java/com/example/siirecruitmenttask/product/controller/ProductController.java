@@ -30,13 +30,9 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ProductResponse> addProduct(@RequestBody @Valid ProductRequest productRequest) {
 
-        try {
             var addProduct = productService.addProduct(productRequest);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(addProduct);
-        } catch (ProductInvalidDataException exception) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, exception.getMessage(), exception);
-        }
     }
 
     @PutMapping(value = "{id}")
@@ -46,8 +42,6 @@ public class ProductController {
             var editProduct = productService.editProduct(id, productRequest);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(editProduct);
-        } catch (ProductInvalidDataException exception) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, exception.getMessage(), exception);
         } catch (ProductNotFoundException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage(), exception);
         }
