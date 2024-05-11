@@ -4,5 +4,6 @@ import java.math.BigDecimal;
 
 public record CheckDiscountResponse(
         BigDecimal price,
+        String currency,
         String details) {
 }

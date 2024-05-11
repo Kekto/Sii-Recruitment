@@ -28,21 +28,21 @@ public class DiscountService {
         PromotionalCodeEntity promotionalCodeEntity = promotionalCodeService.findByName(promotionalCodeName);
 
         if (LocalDate.now().compareTo(promotionalCodeEntity.getExpirationDate()) > 0) {
-            return new CheckDiscountResponse(productEntity.getPrice(), "This code has expired.");
+            return new CheckDiscountResponse(productEntity.getPrice(), productEntity.getCurrency(), "This code has expired.");
         }
 
         if (!Objects.equals(promotionalCodeEntity.getCurrency(), productEntity.getCurrency())) {
-            return new CheckDiscountResponse(productEntity.getPrice(), "Currency types differ.");
+            return new CheckDiscountResponse(productEntity.getPrice(), productEntity.getCurrency(), "Currency types differ.");
         }
 
         if (promotionalCodeEntity.getRemainingUses() < 1) {
-            return new CheckDiscountResponse(productEntity.getPrice(), "This code has reached usage limit.");
+            return new CheckDiscountResponse(productEntity.getPrice(), productEntity.getCurrency(), "This code has reached usage limit.");
         }
 
         BigDecimal discountedPrice = getDiscountPrice(promotionalCodeEntity, productEntity);
         discountedPrice = discountedPrice.setScale(2, RoundingMode.HALF_UP);
 
-        return new CheckDiscountResponse(discountedPrice, "Discount successfully applied");
+        return new CheckDiscountResponse(discountedPrice, productEntity.getCurrency(), "Discount successfully applied");
     }
 
     public BigDecimal getDiscountPrice(PromotionalCodeEntity promotionalCodeEntity, ProductEntity product) {
